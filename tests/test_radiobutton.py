@@ -1,24 +1,23 @@
-from pytest import raises
+import pytest
 
-import twill
 from twill import browser, commands, namespaces
 from twill.errors import TwillException
 
 
-def test_switch_buttons(url):
+def test_switch_buttons(url: str):
     namespaces.new_local_dict()
-    twill.commands.reset_browser()
+    commands.reset_browser()
 
-    with raises(TwillException):
-        browser.title
+    with pytest.raises(TwillException):
+        browser.title  # noqa: B018
 
     commands.go(url)
-    commands.go('/test_radiobuttons')
+    commands.go("/test_radiobuttons")
 
     commands.submit()
-    assert 'RADIOBUTTONTEST' not in browser.html
+    assert "RADIOBUTTONTEST" not in browser.html
 
-    for x in ('one', 'two', 'three'):
-        commands.fv('1', 'radiobuttontest', x)
+    for x in ("one", "two", "three"):
+        commands.fv("1", "radiobuttontest", x)
         commands.submit()
-        assert f'RADIOBUTTONTEST: =={x}==' in browser.html
+        assert f"RADIOBUTTONTEST: =={x}==" in browser.html

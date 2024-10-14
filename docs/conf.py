@@ -1,28 +1,38 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""Configuration file for the Sphinx documentation builder.
+
+This file only contains a selection of the most common options.
+For a full list see the documentation:
+https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import sys
+from pathlib import Path
 
+sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
 
 # -- Project information -----------------------------------------------------
 
-project = 'twill'
-copyright = '2022, C. Titus Brown, Ben R. Taylor, Christoph Zwerschke et al'
-author = 'C. Titus Brown, Ben R. Taylor, Christoph Zwerschke et al'
+
+def project_version() -> str:
+    """Fetch version from pyproject.toml file."""
+    # this also works when the package is not installed
+    with open("../pyproject.toml", encoding="utf-8") as toml_file:
+        for line in toml_file:
+            if line.startswith("version ="):
+                return line.split("=")[1].strip().strip('"')
+    raise RuntimeError("Cannot determine project version")
+
+
+project = "twill"
+author = "C. Titus Brown, Ben R. Taylor, Christoph Zwerschke et al"
+copyright = "2024, " + author
 
 # The full version, including alpha/beta/rc tags
-version = release = '3.1'
+version = release = project_version()
+
+language = "en"
 
 
 # -- General configuration ---------------------------------------------------
@@ -38,7 +48,7 @@ extensions = []
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -46,7 +56,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages. See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

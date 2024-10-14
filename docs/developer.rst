@@ -4,20 +4,19 @@
 Developing twill
 ================
 
-twill is entirely written in Python. You will need Python 3.6
+twill is entirely written in Python. You will need Python 3.8
 or newer to use and develop it.
 
 Package tests
 ~~~~~~~~~~~~~
 
-twill comes with several unit tests. They depend on `pytest`_,
-`wsgi_intercept`_ and `Quixote`_. To run them, type 'pytest'
-in the top level directory. To run an individual test, you can use
-the command 'pytest tests/test_something.py'.
+twill comes with several unit tests. They depend on `pytest`_ and
+`Flask`_. To run them, type 'pytest' in the top level directory.
+To run an individual test, you can use the command
+``pytest tests/test_something.py``.
 
 .. _pytest: https://pytest.org/
-.. _wsgi_intercept: https://pypi.org/project/wsgi-intercept/
-.. _Quixote: http://quixote.ca/
+.. _Flask: https://flask.palletsprojects.com/
 
 Licensing
 ~~~~~~~~~
@@ -30,8 +29,8 @@ In plain English: C. Titus Brown owns the original code, but you're
 welcome to use it, update it, subsume it into other projects, and
 distribute it freely. However, you must retain copyright attribution.
 
-Newer versions 1.x, 2.x and 3.x are also Copyright (C) 2007-2022
-Ben R. Taylor , Adam V. Brandizzi, Christoph Zwerschke et al.
+Newer versions 1.x, 2.x and 3.x are also Copyright (C) 2007-2024
+Ben R. Taylor, Adam V. Brandizzi, Christoph Zwerschke et al.
 
 The newer versions are released under the same `MIT license`_.
 

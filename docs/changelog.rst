@@ -4,6 +4,48 @@
 ChangeLog
 =========
 
+3.3 (released 2024-10-13)
+-------------------------
+* The supported Python versions are now 3.8 to 3.13.
+* Saving and loading of cookies has been made more robust, and it now also
+  incorporates the domains and paths of the cookies.
+* Twill now uses Flask_ instead of Quixote_ as test server for running its own
+  test suite.
+* Twill now uses 'argparse' instead of the deprecated 'optparse' to parse
+  options and arguments passed on the command line.
+
+3.2.5 (released 2024-06-28)
+---------------------------
+* Uses lxml 5 instead of lxml 4.
+
+3.2.4 (released 2024-04-27)
+---------------------------
+* Support latest version of httpx.
+
+3.2.3 (released 2024-03-05)
+---------------------------
+* Adds 'timeout' to the list of exported commends (#22).
+
+3.2.2 (released 2024-01-28)
+---------------------------
+* Fixes the broken interactive shell.
+* Fixes 'run_file' when specifying files in a subdirectory without extension.
+
+3.2.1 (released 2023-11-23)
+---------------------------
+* Increased the default request timeout of the twill browser to 10 seconds
+  (from 5 seconds in 3.2) and added a command to change the timeout (#18).
+
+3.2 (released 2023-11-02)
+-------------------------
+* The supported Python versions are now 3.8 to 3.12.
+* A new method 'find_links' was added to the twill browser (#17).
+* Twill now uses httpx_ instead of requests_.
+* WSGI apps are now supported via httpx, wsgi_intercept is not needed anymore.
+* We now use 'pyproject.toml' instead of 'setup.py'.
+* Type hints and code style have been improved and are checked with ruff.
+* Internal code was reformatted using ruff format (compatible with black).
+
 3.1 (released 2022-10-30)
 -------------------------
 * The submit command now takes an additional parameter to specify a form
@@ -27,24 +69,20 @@ ChangeLog
 
 3.0.3 (released 2022-10-12)
 ---------------------------
-
 * Form numbers are now printed correctly with 'showforms' (#12).
 
 3.0.2 (released 2022-04-10)
 ---------------------------
-
 * Save HTML file with browser encoding or as UTF-8 (#9).
 * Do not modify root logger any more (#10).
 
 3.0.1 (released 2021-12-04)
 ---------------------------
-
 * This version now also supports Python 3.10.
 * The twill language now allows 8-bit letters to appear in strings unquoted.
 
 3.0 (released 2021-02-25)
 -------------------------
-
 * In this version we require Python 3.6 to 3.9.
   If you still need support for Python 2 or Python 3.5,
   then please use the latest version from the 2.x branch.
@@ -53,12 +91,10 @@ ChangeLog
 
 2.0.3 (released 2021-02-25)
 ---------------------------
-
 * Backported the fixes in version 3.0.
 
 2.0.2 (released 2021-02-13)
 ---------------------------
-
 * This version now also supports Python 3.9.
 * 'tidy_should_exist' has been renamed ot 'require_tidy'.
 * Support for setting options to be used with HTML Tidy.
@@ -66,12 +102,10 @@ ChangeLog
 
 2.0.1 (released 2020-07-12)
 ---------------------------
-
 * Fixes an issue with encoding declarations (#5).
 
 2.0 (released 2020-04-04)
 -------------------------
-
 This version is based on twill 1.8, which was a refactoring
 of version 0.9 that used requests_ and lxml_ instead of mechanize_,
 done by Ben Taylor in April 2014. It also integrates ideas and
@@ -130,6 +164,7 @@ The following improvements and changes were made in this version:
 
 .. _lxml: https://lxml.de/
 .. _requests: https://requests.readthedocs.io/
+.. _httpx: https://www.python-httpx.org/
 .. _mechanize: https://mechanize.readthedocs.io/
 .. _cssselect: https://github.com/scrapy/cssselect
 .. _Beautiful Soup: https://www.crummy.com/software/BeautifulSoup/
@@ -139,3 +174,5 @@ The following improvements and changes were made in this version:
 .. _pytest: https://pytest.org/
 .. _nose: https://nose.readthedocs.io/
 .. _tox: https://tox.readthedocs.io/
+.. _Quixote: https://github.com/nascheme/quixote
+.. _Flask: https://flask.palletsprojects.com/

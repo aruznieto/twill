@@ -1,9 +1,12 @@
+"""A twill extension example."""
+
 from twill import log
 
 
 def test(*args):
-    log.info('function test passed %d args', len(args))
-    log.info('args are: %s', args)
+    """Test passed arguments."""
+    log.info("function test passed %d args", len(args))
+    log.info("args are: %s", args)
 
 
 log.info("---")

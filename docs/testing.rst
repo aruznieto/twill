@@ -73,35 +73,39 @@ As an example, here's the code from twill's own unit test, testing the
 unit-test support code::
 
     import os
-    import twill
-    from quixote.server.simple_server import run as quixote_run
+
+    from .server import app  # a Flask app used as test server
+    from .utils import test_dir  # directory with test scripts
 
     PORT=8090  # port to run the server on
 
     def run_server():
         """Function to run the server"""
-        quixote_run(twill.tests.server.create_publisher, port=PORT)
+        app.run(host=HOST, port=PORT)
 
     def test():
-        """The unit test"""
-        test_dir = twill.tests.utils.testdir
+        """The test function"""
+        test_dir = twill.tests.utils.test_dir
         script = os.path.join(test_dir, 'test_unit_support.twill')
 
-        # create test_info object
+        # create a TestInfo object
         test_info = twill.unit.TestInfo(script, run_server, PORT)
 
-        # run tests!
+        # run the tests!
         twill.unit.run_test(test_info)
 
-Here, I'm unit testing the Quixote application ``twill.tests.server``, which
-is run by ``quixote_run`` (a.k.a. ``quixote.server.simple_server.run``) on
-port ``PORT``, using the twill script ``test_unit_support.twill``. That
-script contains this code::
+Here, I'm unit testing the Flask_ application ``.server`` in the ``tests``
+directory, which is run on the specified ``PORT``, using the twill script
+``test_unit_support.twill``. That script contains this code::
 
-   # starting URL is provided to it by the unit test support framework.
+    # starting URL is provided to it by the unit test support framework.
 
-   go ./multisubmitform
-   code 200
+    go ./multisubmitform
+    code 200
+
+    fv 1 sub_a click
+    submit
+    find "used_sub_a"
 
 A few things to note:
 
@@ -120,29 +124,32 @@ A few things to note:
 Testing WSGI applications "in-process"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use `wsgi_intercept`_ for testing `WSGI applications`_.
-
-It provides two functions, `add_wsgi_intercept` and `remove_wsgi_intercept`,
-that allow Python applications to redirect HTTP calls into a WSGI application
-"in-process", without going via an external Internet call. This is
-particularly useful for unit tests, where setting up an externally
-available Web server can be inconvenient.
+You can pass a WSGI_ application to the ``reset()`` method of the browser.
+HTTP calls will then go to this application "in-process" directly instead
+of going over the network. This is particularly useful for unit tests,
+where setting up an externally available Web server can be inconvenient.
 
 For example, the following code redirects all ``localhost:80`` calls to
-the given WSGI app: ::
+a simple Flask_ app: ::
 
-    def create_app():
-        return wsgi_app
+    from flask import Flask
+    from twill import browser, commands
 
-    import wsgi_intercept
+    app = Flask(__name__)
 
-    wsgi_intercept.requests_intercept.install()
-    wsgi_intercept.add_wsgi_intercept('localhost', 80, create_app)
-    # your twill tests go here...
-    wsgi_intercept.remove_wsgi_intercept('localhost', 80)
-    wsgi_intercept.requests_intercept.uninstall()
 
-See the ``tests/test_wsgi_intercept.py`` unit test for more examples.
+    @app.route("/")
+    def hello():
+        return "Hello World!"
 
-.. _wsgi_intercept: https://pypi.python.org/pypi/wsgi_intercept
-.. _WSGI applications: https://www.python.org/dev/peps/pep-0333/
+
+    browser.reset(app=app)
+
+    commands.go("http://localhost:80")
+    commands.find("Hello World!")
+
+
+See the ``tests/test_wsgi`` unit test for more examples.
+
+.. _WSGI: https://peps.python.org/pep-3333/
+.. _Flask: https://flask.palletsprojects.com/
